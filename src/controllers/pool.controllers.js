@@ -12,3 +12,12 @@ export async function createPool(req,res){
     }
 
 }
+export async function findPool(req,res){
+    try{
+        const findpool = await poolCollection.find().toArray();
+        res.send(findpool);
+    }catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+}

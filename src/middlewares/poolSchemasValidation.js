@@ -6,11 +6,11 @@ export function poolSchemaValidation(req,res,next){
     const {title, expireAt} = req.body;
     const pool = {
         title,
-        expireAt,
+        expireAt: expireAt === '' ? dayjs().add(30, 'day').format('YYYY-MM-DD HH:mm:ss') : expireAt,
     }
-    if(expireAt === ''){
-        expireAt = dayjs().add(30, 'day').format('YYYY-MM-DD HH:mm:ss')
-    }
+    // if(expireAt === ''){
+    //     expireAt = dayjs().add(30, 'day').format('YYYY-MM-DD HH:mm:ss')
+    // }
     if(title === ''){
         return res.sendStatus(422);
     }
