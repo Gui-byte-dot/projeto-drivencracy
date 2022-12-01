@@ -19,9 +19,7 @@ export function poolSchemaValidation(req,res,next){
         const errors = error.details.map((detail) => detail.message);
         return res.status(400).send(errors);
     }
-    res.locals.pool = pool;
-
-    next();
+    
 
 }
 // console.log(dayjs().add(30, 'day').format('YYYY-MM-DD HH:mm:ss'))

@@ -13,3 +13,4 @@ try{
 }
 const db = mongoClient.db("Drivencracy");
 export const poolCollection = db.collection("pool");
+export const choiceCollection = db.collection("choice");
