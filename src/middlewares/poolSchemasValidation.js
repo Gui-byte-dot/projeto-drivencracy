@@ -8,9 +8,7 @@ export function poolSchemaValidation(req,res,next){
         title,
         expireAt: expireAt === '' ? dayjs().add(30, 'day').format('YYYY-MM-DD HH:mm:ss') : expireAt,
     }
-    // if(expireAt === ''){
-    //     expireAt = dayjs().add(30, 'day').format('YYYY-MM-DD HH:mm:ss')
-    // }
+   
     if(title === ''){
         return res.sendStatus(422);
     }
@@ -22,4 +20,3 @@ export function poolSchemaValidation(req,res,next){
     
 
 }
-// console.log(dayjs().add(30, 'day').format('YYYY-MM-DD HH:mm:ss'))

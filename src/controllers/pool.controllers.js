@@ -1,4 +1,5 @@
-import { choiceCollection, poolCollection } from "../database/db.js";
+import { choiceCollection, poolCollection, voteCollection } from "../database/db.js";
+import {ObjectId} from 'mongodb';
 
 export async function createPool(req,res){
     const pool = res.locals.pool;
@@ -37,4 +38,54 @@ export async function findPoolId(req,res){
       console.log(error);
       res.status(500).send(error.message);
     }
+}
+
+
+export async function findResult(req,res){
+    const id = req.params.id;
+    try{
+        const listChoice = await choiceCollection.find({ pollId: id }).toArray();
+        if(listChoice.length === 0) {
+            return res.status(404).send('Enquete não encontrada');
+        }
+        const votes = await voteCollection.find().toArray();
+        console.log(votes);
+
+        function findOcc(arr, key){
+            let arr2 = [];
+            arr.forEach((x)=>{
+               if(arr2.some((val)=>{ return val[key] == x[key] })){
+                 arr2.forEach((k)=>{
+                   if(k[key] === x[key]){ 
+                     k["occurrence"]++
+                   }
+                })
+               }else{
+                 let a = {}
+                 a[key] = x[key]
+                 a["occurrence"] = 1
+                 arr2.push(a);
+               }
+            }) 
+            return arr2
+          }   
+          let key = "choiceId"
+          const ocorrences = (findOcc(votes, key));
+          console.log(ocorrences);
+
+          const ocorrencias = (ocorrences.map(recipe => recipe.occurrence));
+          const maiorVoto = (Math.max(...ocorrencias));
+          console.log(maiorVoto);
+
+          const filtro = ocorrences.filter(x => x.occurrence === maiorVoto);
+          const filtroEscolhido = filtro[0].choiceId;
+          console.log(filtroEscolhido);
+
+        
+        res.sendStatus(201)
+    }catch(error) {
+        console.log(error);
+        res.status(500).send(error.message);
+    }
+
 }
