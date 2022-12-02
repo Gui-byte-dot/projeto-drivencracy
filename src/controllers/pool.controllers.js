@@ -1,4 +1,4 @@
-import { choiceCollection, poolCollection, voteCollection } from "../database/db.js";
+import { choiceCollection, poolCollection, voteCollection, resultCollection } from "../database/db.js";
 import {ObjectId} from 'mongodb';
 
 export async function createPool(req,res){
@@ -79,10 +79,30 @@ export async function findResult(req,res){
 
           const filtro = ocorrences.filter(x => x.occurrence === maiorVoto);
           const filtroEscolhido = filtro[0].choiceId;
-          console.log(filtroEscolhido);
-
         
-        res.sendStatus(201)
+
+          const findVote = await choiceCollection.findOne({_id:new ObjectId(filtroEscolhido)});
+          const findVotePoolId = findVote.pollId;
+          const findVotePoolTitle = findVote.title;
+          console.log(findVotePoolId);
+          console.log(findVotePoolTitle)
+
+          let poolFindId = await poolCollection.findOne({_id:new ObjectId(findVotePoolId)});
+          console.log(poolFindId);
+
+         
+          const result1 = {
+            result:{
+              title:findVotePoolTitle,
+              votes:maiorVoto
+            }
+          }
+          let obj = Object.assign({}, poolFindId, result1);
+
+          obj._id = findVotePoolId;
+          console.log(obj)
+          
+        res.send(obj).status(201);
     }catch(error) {
         console.log(error);
         res.status(500).send(error.message);

@@ -15,3 +15,4 @@ const db = mongoClient.db("Drivencracy");
 export const poolCollection = db.collection("pool");
 export const choiceCollection = db.collection("choice");
 export const voteCollection = db.collection("vote");
+export const resultCollection = db.collection("result");
