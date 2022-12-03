@@ -1,4 +1,4 @@
-import { choiceCollection, poolCollection, voteCollection, resultCollection } from "../database/db.js";
+import { choiceCollection, poolCollection, voteCollection} from "../database/db.js";
 import {ObjectId} from 'mongodb';
 
 export async function createPool(req,res){
@@ -84,12 +84,9 @@ export async function findResult(req,res){
           const findVote = await choiceCollection.findOne({_id:new ObjectId(filtroEscolhido)});
           const findVotePoolId = findVote.pollId;
           const findVotePoolTitle = findVote.title;
-          console.log(findVotePoolId);
-          console.log(findVotePoolTitle)
+          
 
           let poolFindId = await poolCollection.findOne({_id:new ObjectId(findVotePoolId)});
-          console.log(poolFindId);
-
          
           const result1 = {
             result:{
@@ -109,3 +106,4 @@ export async function findResult(req,res){
     }
 
 }
+

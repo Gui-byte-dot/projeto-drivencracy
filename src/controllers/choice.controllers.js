@@ -36,17 +36,11 @@ export async function createVote(req, res) {
         }
         await voteCollection.insertOne(vote);
         res.sendStatus(201);
-    }catch(err){
+    } catch (err) {
         console.log(err);
         res.status(500).send(err.message);
 
     }
 
-    
-
-
-
-
-
-
 }
+
