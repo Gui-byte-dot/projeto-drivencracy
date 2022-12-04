@@ -17,6 +17,6 @@ app.use(choiceRoutes);
 //   console.log(`Server running on port ${port}`);
 //   ;
 // });
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server is listening on port ${process.env.PORT}`);
 });
